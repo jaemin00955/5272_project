@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 </title>
+    <style>
+    	body{
+    		margin:0px;
+    	}
+
+    	#map{
+
+    		width:100vw; height:1--vh; min-height:500px;
+    	}
+
+
+
+    </style>
+</head>
+<body>
+<!-- 지도를 표시할 div -->
+<div id="map" ></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a2ff0e58b29e74620f8f0b8bdf5ab66"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.560806, 126.993547), // 지도의 중심좌표
+            level: 12 // 지도의 확대 레벨
+        };
+    // 지도를 생성 
+    var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+    // 마커를 표시할 위치와 title 객체 배열 
+var positions = [
+    {
+        title: '충무로', 
+        latlng: new kakao.maps.LatLng(37.560806, 126.993644)
+    },
+    {
+        title: '울산', 
+        latlng: new kakao.maps.LatLng(3530.9242397, 12926.7961838)
+    },
+    
+    
+];
+
+// 마커 이미지의 이미지 주소
+	var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+    
+	for (var i = 0; i < positions.length; i ++) {
+ 	   
+    // 마커 이미지의 이미지 크기
+    var imageSize = new kakao.maps.Size(24, 35); 
+    
+    // 마커 이미지를 생성합니다    
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+    
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng, // 마커를 표시할 위치
+        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image : markerImage // 마커 이미지 
+    });
+}
+
+</script>
+</body>
+</html>
