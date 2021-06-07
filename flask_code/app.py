@@ -6,7 +6,7 @@ import redis
 from flask import Flask, render_template, request, flash, redirect, url_for, session, g, make_response, Response
 from device_data_dao import each_device_info
 from sql_loop import pick_sql_data
-from model.user import User
+from Model.User import User
 from repo.user_repo import *  # USER repository
 import building_data_dao
 import device_list_dao

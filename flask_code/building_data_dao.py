@@ -41,7 +41,7 @@ def get_user_building(login_user_id):
 # 플라스크 라우팅 할 때 building_name 파라미터를 불러올수가 없어서, login_user_id파라미터만 필요하도록 만들어주세요!
 def get_user_building_info(login_user_id):
     conn = db_conn.get_connection()
-    sql_b = 'select building.id,building_name,building_type_name,building_address from building LEFT JOIN user ON building.building_user_id = %s order by building.id'
+    sql_b = 'select id,building_name,building_type_name,building_address from building where building_user_id = %s order by building.id'
     sql_d = 'select count(distinct(device_id)) as device_num from device LEFT JOIN building ON device.building_name=building.building_name where device.device_user_id=%s and device.building_name = %s'
     #sql_e = 'select device.device_criteria_latitude, device.device_criteria_longitude, device.device_criteria_height from device where device.device_user_id=%s and device.building_name = %s'
     cursor = conn.cursor(pymysql.cursors.DictCursor)

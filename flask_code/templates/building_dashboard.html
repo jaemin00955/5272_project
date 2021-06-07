@@ -164,7 +164,7 @@
                 <td>{{building['building_type_name']}}</td> <!--종류-->
               {% endif %}
               <td>{{ building['device_num'] }}개</td> <!--계측기개수-->
-              {% if building['device_num'] == 4 %} <!--이상여부인데 현재 임의로 테스트 용으로 막 써놓음-->
+              {% if building['device_num'] == 4 or building['device_num'] == 1 %} <!--이상여부인데 현재 임의로 테스트 용으로 막 써놓음-->
                 <td> <div class="safe"> 정상 </div> </td>
               {% else %}
                 <td> <div id="{{ building['building_name'] }}" class="danger"> 이상 발생 </div> </td>
