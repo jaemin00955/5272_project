@@ -35,7 +35,7 @@
   <body>
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-3 me-0 px-3" href="building_dashboard">GNSS 상시계측 시스템</a>  <!--col-lg-2를 search 없애면서 3으로 늘림-->
+  <a class="navbar-brand col-md-3 col-lg-3 me-0 px-3" href="/index">GNSS 상시계측 시스템</a>  <!--col-lg-2를 search 없애면서 3으로 늘림-->
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -60,7 +60,7 @@
           
           <!-- 총 건축물 대시보드 화면으로 연결-->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="all_dashboard">
+            <a class="nav-link active" aria-current="page" href="/all_dashboard">
 
               Every Structure Dashboard
             </a>
@@ -68,7 +68,7 @@
 
           <!-- 사용자의 총 건축물 대시보드 화면으로 연결 (현 페이지) -->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index">
+            <a class="nav-link active" aria-current="page" href="/index">
 
               My Structure Dashboard
             </a>
@@ -164,12 +164,7 @@
                 <td>{{building['building_type_name']}}</td> <!--종류-->
               {% endif %}
               <td>{{ building['device_num'] }}개</td> <!--계측기개수-->
-              {% if building['device_num'] == 4 %} <!--이상여부인데 현재 임의로 테스트 용으로 막 써놓음-->
-                <td> <div class="safe"> 정상 </div> </td>
-              {% else %}
-                <td> <div id="{{ building['building_name'] }}" class="danger"> 이상 발생 </div> </td>
-              {% endif %}
-              
+              <td> <div id="{{ building['building_name'] }}" class="danger"> 이상 발생 </div> </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -199,24 +194,25 @@
                 if(building_list[i]['buildling_name'] != '춘천빌딩1')
                     requestData(building_list[i]['building_name'])
             }
-            async function requestData(buildingName){
+            async function requestData(buildingName) {
                 var bdname = buildingName
                 $.ajax({
                     url: '/api/building/' + bdname + '/status',
                     success: function (data) {
                         console.log(data)
                         document.getElementById(bdname).innerText = data['is_warn']
-                        if(data['is_warn'] == '정상'){
+                        if (data['is_warn'] == '정상') {
                             document.getElementById(bdname).classList.remove('danger')
                             document.getElementById(bdname).classList.add('safe')
-                        }else{
+                        } else {
                             document.getElementById(bdname).classList.remove('safe')
                             document.getElementById(bdname).classList.add('danger')
                         }
+
                         setTimeout(requestData(buildingName), 3600000);
                     },
                     cache: false
-                })
+                });
             }
 
             {#async function requestDataChung() {#}
@@ -231,7 +227,7 @@
             {#        },#}
             {#        cache: false#}
             {#    })#}
-            {#}#}
+
             {##}
             {# async function requestDataUlsan() {#}
             {#    $.ajax({#}
@@ -247,7 +243,6 @@
             {#        cache: false#}
             {#    })#}
             {# }#}
-
         </script>
     </body>
 </html>
