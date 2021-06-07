@@ -40,7 +40,7 @@
   <body>
 
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-md-3 col-lg-3 me-0 px-3" href="building_dashboard">GNSS 상시계측 시스템</a>  <!--col-lg-2를 search 없애면서 3으로 늘림-->
+      <a class="navbar-brand col-md-3 col-lg-3 me-0 px-3" href="/index">GNSS 상시계측 시스템</a>  <!--col-lg-2를 search 없애면서 3으로 늘림-->
       <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -65,7 +65,7 @@
 
               <!-- 총 건축물 대시보드 화면으로 연결-->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="all_dashboard">
+            <a class="nav-link active" aria-current="page" href="/all_dashboard">
 
               Every Structure Dashboard
             </a>
@@ -73,8 +73,7 @@
 
           <!-- 사용자의 총 건축물 대시보드 화면으로 연결 (현 페이지) -->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index">
-
+            <a class="nav-link active" aria-current="page" href="/index">
               My Structure Dashboard
             </a>
           </li>
@@ -90,14 +89,19 @@
           <!-- 계측기 등록하는 화면으로 연결-->
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="register">
+            <a class="nav-link" href="/register">
               <span data-feather="file-text"></span>
               계측기 등록하기
             </a>
           </li>
             </ul>
+
+
           </div>
+
+
         </nav>
+       </div>
 
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -105,14 +109,11 @@
         <h2>{{building_name}} 계측기 현황  </h2>
       </div>
 
-        <!--
-
       <div id="layoutSidenav_content">
-        <div id="map" style="display:block; text-align:center;width:100%;height:350px;"></div>
+        <div id="map" style="display:block; text-align:center;width:100%;height:600px;"></div>  <!-- 지도 크기 -->
+      </div>
+      <div class="division"></div>
 
-
-     <div id="roadview" style="width:100%;height:300px;"></div>
--->
       <style>
     .screen_out {display:block;overflow:hidden;position:absolute;left:-9999px;width:1px;height:1px;font-size:0;line-height:0;text-indent:-9999px}
     .wrap_content {overflow:hidden;height:330px}
@@ -124,31 +125,13 @@
     .btn_resetMap {background-position:-69px 0;}
     .btn_linkRoadview {background-position:0 0;}
     .btn_resetRoadview {background-position:-69px 0;}
+    .label {margin-bottom: 96px;}
+    .label * {display: inline-block;vertical-align: top;}
+    .label .left {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_l.png") no-repeat;display: inline-block;height: 24px;overflow: hidden;vertical-align: top;width: 7px;}
+    .label .center {background: url(https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_bg.png) repeat-x;display: inline-block;height: 24px;font-size: 12px;line-height: 24px;}
+    .label .right {background: url("https://t1.daumcdn.net/localimg/localimages/07/2011/map/storeview/tip_r.png") -1px 0  no-repeat;display: inline-block;height: 24px;overflow: hidden;width: 6px;}
 
-   </style>
-
-      <div class="wrap_content">
-
-    <div class="wrap_map">
-        <div id="map" style="width:100%;height:100%"></div>
-        <div class="wrap_button">
-            <a href="javascript:;" class="btn_comm btn_linkMap" target="_blank" onclick="moveKakaoMap(this)"><span class="screen_out">지도 크게보기</span></a>
-            <a href="javascript:;" class="btn_comm btn_resetMap" onclick="resetKakaoMap()"><span class="screen_out">지도 초기화</span></a>
-        </div>
-    </div>
-    <div class="wrap_roadview">
-        <div id="roadview" style="width:100%;height:100%"></div>
-        <div class="wrap_button">
-            <a href="javascript:;" class="btn_comm btn_linkRoadview" target="_blank" onclick="moveKakaoRoadview(this)"><span class="screen_out">로드뷰 크게보기</span></a>
-            <a href="javascript:;" class="btn_comm btn_resetRoadview" onclick="resetRoadview()"><span class="screen_out">로드뷰 크게보기</span></a>
-        </div>
-    </div>
-  </div>
-
-
-      <div class="division"></div>
-
-
+  </style>
 
 
       <h2>{{building_name}} 계측기 리스트 </h2>
@@ -167,11 +150,12 @@
             {% for device in device_list %}
             <tr>
 
-              <td>{{device['id']}}</td>
+              <td>{{device['id']-1}}</td>
               <td> <a href="{{'/building/' + building_name + '/' + device['device_id'] }}">{{device['device_id']}}</a></td>
 
               <td>{{device['device_created']}}</td>
-              <td><div id="warn_info_{{ device['device_id'] }}" class="safe">정상</div></td>
+
+              <td><div id="warn_info_{{ device['device_id'] }}" ></div></td>
             </tr>
             {%endfor%}
           </tbody>
@@ -191,8 +175,14 @@
     <script src="{{url_for('static',filename='assets/dashboard/dashboard.js')}}"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a2ff0e58b29e74620f8f0b8bdf5ab66&libraries=services,clusterer,drawing"></script>
         <!-- 지도 관련 자바스크립트-->
-    <script src="{{url_for('static',filename='assets/dist/js/roadview.js')}}"></script>
-    <script type="text/javascript">
+    {%if building_name == "울산" %}
+    <script src="{{url_for('static',filename='assets/dist/js/ulsan.js')}}"></script>
+    {% else %}
+     <script src="{{url_for('static',filename='assets/dist/js/chung.js')}}"></script>
+    {% endif %}
+
+
+     <script type="text/javascript">
         var deviceList = {{ device_list|tojson }}
             // /api/building/<buildingName>/<deviceId>/status
         console.log(deviceList)
@@ -230,8 +220,46 @@
             })
         }
 
+    </script>
+   <script type="text/javascript">
+        var deviceList = {{ device_list|tojson }}
+            // /api/building/<buildingName>/<deviceId>/status
+        console.log(deviceList)
+        for (let i = 0; i < deviceList.length; i++) {
+            console.log("1")
+            console.log(deviceList[i]['building_name'] + deviceList[i]['device_id'])
+            console.log("2")
+            requestData(deviceList[i]['building_name'], deviceList[i]['device_id'])
+        }
 
+        async function requestData(buildingName, deviceId){
+            var name = buildingName
+            var deid = deviceId
 
+            $.ajax({
+                url: '/api/building/' + name + '/' + deid + '/status',
+                success: function (data) {
+                    console.log(data)
+                    console.log("buldingname : " + name)
+                    console.log("deviceid " + deid)
+
+                    var id = "warn_" + String(deid)
+                    console.log("id : " + id)
+                    document.getElementById(id).innerText = deid
+                    if(data['is_warn'] == '정상'){
+                        document.getElementById(id).classList.remove('danger')
+                        document.getElementById(id).classList.add('safe')
+                    }else{
+                        document.getElementById(id).classList.remove('safe')
+                        document.getElementById('warn_info_' + deviceId).classList.add('danger')
+                    }
+                    setTimeout(requestData(buildingName,deviceId), 3600000);
+                },
+                cache: false
+            })
+        }
+
+        //
 
     </script>
 

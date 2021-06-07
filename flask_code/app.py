@@ -71,6 +71,7 @@ def all_dashboard():
 
 # 주희님 이제 경로가 변경되었습니다.
 # 로그인하고 들어오시면 아마 주소창이 /index로 변경되었을 겁니다.
+@app.route('/')
 @app.route('/index')
 def index():
     if 'user_id' in session:
