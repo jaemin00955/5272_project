@@ -5,6 +5,7 @@ import pymysql
 from db_conn import get_connection
 
 import time
+#날씨 API 활용
 
 PTY = [
     {0: "없음"},

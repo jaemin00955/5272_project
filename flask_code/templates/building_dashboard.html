@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.83.1">
-    <title>Main page</title>
+    <title>GNSS 상시계측 시스템</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
     <!-- Bootstrap core CSS -->
@@ -164,7 +164,7 @@
                 <td>{{building['building_type_name']}}</td> <!--종류-->
               {% endif %}
               <td>{{ building['device_num'] }}개</td> <!--계측기개수-->
-              {% if building['device_num'] == 4 or building['device_num'] == 1 %} <!--이상여부인데 현재 임의로 테스트 용으로 막 써놓음-->
+              {% if building['device_num'] == 4 or building['device_num'] == 1 %}
                 <td> <div class="safe"> 정상 </div> </td>
               {% else %}
                 <td> <div id="{{ building['building_name'] }}" class="danger"> 이상 발생 </div> </td>
@@ -191,6 +191,9 @@
         <!-- 지도 관련 자바스크립트-->
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1a2ff0e58b29e74620f8f0b8bdf5ab66&libraries=services,clusterer,drawing"></script>
         <script src="{{url_for('static',filename='assets/dist/js/map.js')}}"></script>
+        
+        
+        <!-- 안전여부 파악을 위해 데이터API를 받아와 판정 -->
         <script type="text/javascript">
             var building_list = {{ building_map|tojson }};
             console.log(building_list)

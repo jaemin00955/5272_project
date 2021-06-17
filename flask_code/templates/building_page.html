@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.83.1">
-    <title>sensor_dashboard_page</title>
+    <title>GNSS 상시계측 시스템</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
 
@@ -182,6 +182,7 @@
     {% endif %}
 
 
+    <!-- 안전여부 파악을 위해 데이터API를 받아와 판정 -->
      <script type="text/javascript">
         var deviceList = {{ device_list|tojson }}
             // /api/building/<buildingName>/<deviceId>/status
@@ -221,6 +222,7 @@
         }
 
     </script>
+    
    <script type="text/javascript">
         var deviceList = {{ device_list|tojson }}
             // /api/building/<buildingName>/<deviceId>/status
