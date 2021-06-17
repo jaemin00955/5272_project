@@ -112,7 +112,7 @@
             </div>
             <div class="col-xl-3 col-md-6">
               <div class="card bg-normal text-white mb-4">
-                <div class="card-body"> 5 개 </div>   <!-- 나의 총 계측기 개수 정보 필요-->
+                <div class="card-body"> {{device_num[0].get('count(distinct(device_id))')}} 개 </div>   <!-- 나의 총 계측기 개수 정보 필요-->
                 <div class="card-footer d-flex align-items-center justify-content-between">
                   <a class="small text-white stretched-link"> 나의 계측기</a>
                   <div class="small text-white"><i class="fas fa-angle-right"></i></div>
