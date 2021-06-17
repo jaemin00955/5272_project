@@ -6,7 +6,7 @@ import redis
 from flask import Flask, render_template, request, flash, redirect, url_for, session, g, make_response, Response
 from device_data_dao import each_device_info
 from sql_loop import pick_sql_data
-from Model.User import User
+from model.user import User
 from repo.user_repo import *  # USER repository
 import building_data_dao
 import device_list_dao
@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abcd'  # 세션을 이용한 로그인 시스템을 만들기위해서 필요함
 
-# 모든 요청에 로그인 유무를 확인하여 글로벌 객체에 유저정보를 넣습니다. 앞으로 g.user <-- 에 접근하여 유저정보를 가져오시면 됩니다.
+# 모든 요청에 로그인 유무를 확인하여 글로벌 객체에 유저정보를 넣습니다. 앞으로 g.user <-- 에 접근하여 유저정보를 가져오면 됨
 @app.before_request
 def before_request():
     print(session)
@@ -69,8 +69,6 @@ def all_dashboard():
                            device_num_all=device_num_all, building_info=building_info)
 
 
-# 주희님 이제 경로가 변경되었습니다.
-# 로그인하고 들어오시면 아마 주소창이 /index로 변경되었을 겁니다.
 @app.route('/')
 @app.route('/index')
 def index():
@@ -99,8 +97,7 @@ def index():
 
 
 # 특정 건물 정보
-# 주희님께서 building_dashboard.html 작업하실 때 개별 건축물 클릭하면 가령 충무로영상센터의 경우 /building/충무로영상센터 href 설정 해주시면 됩니다.
-# 이 부분 변경되었습니다.
+# 개별 건축물 클릭하면 가령 충무로영상센터의 경우 /building/충무로영상센터 href 설정 
 @app.route('/building/<building_name>')
 def building_page(building_name):
     building_name = building_name
@@ -119,10 +116,8 @@ def building_page(building_name):
 
 
 # 개별 계측기 정보
-# 성연님 개별 디바이스 클릭하실 때 이렇게 넘겨주면 고맙겠습니다!
 # /building/{building_name}/{device_id}
 # ex) /building/충무로영상센터/gnss1
-# 그러면 저는 충무로영상센터(건물이름) 과 gnss1(특정계측기) 를 이용해서 작업을 할 수 있을 거 같습니다.
 @app.route('/building/<building_name>/<device_id>')
 def devices(building_name, device_id):
     print(building_name, device_id)
@@ -181,7 +176,6 @@ def register_device():
 
 # 비동기로 해당 api 로 요청합니다. / 최초 페이지 건축물 위험 유무 상태 보여주는 부분
 # 예시 : /api/building/충무로영상센터/status <-- 요청 형식
-# 현재 샘플로 응답값을 실제로 보내주고 있습니다. 이것을 바탕으로 클라이언트에서 서버로 데이터 요청하는 부분을 구현하시면 될 거 같습니다.
 @app.route('/api/building/<buildingName>/status', methods=['GET'])
 def getWarnDataFrom(buildingName):
     # print(tf_check.warning_building(buildingName)) # 해당 api를 통해 sample과 같은 데이터 불러올 수 있고 만약 건축물의 is_warn이 "이상발생"이면 문자로 알람이 간다.
@@ -191,7 +185,6 @@ def getWarnDataFrom(buildingName):
 
 # 비동기로 해당 api 를 요청합니다. / 개별 건축물화면에서 계측기 위험유무 상태 보여주는 부분
 # 예시 : /api/building/충무로영상센터/syntest1/status <-- 요청 형식
-# 현재 샘플로 응답값을 실제로 보내주고 있습니다. 이것을 바탕으로 클라이언트에서 서버로 데이터 요청하는 부분을 구현하시면 될 거 같습니다.
 @app.route('/api/building/<buildingName>/<deviceId>/status', methods=[ 'GET'] )
 def getWarnDataFromDevice(buildingName,deviceId):
     return tf_check.warning_device(buildingName, deviceId) # 해당 api를 통해 sample과 같은 데이터가져오고 device가 이상이 있다면 해당 device에 해당되는 건축물의 is_warn이 "이상발생으로 바뀐다."
@@ -226,7 +219,6 @@ def stream(device_id):
     return Response(event_stream(device_id), mimetype="text/event-stream")
 
 
-# 이부분을 바로위의 코드로 변경하면 될거같습니다
 @app.route('/api/live/<deviceName>/<value>', methods=['GET'])
 def getliveData(deviceName, value):
     print(deviceName, value)

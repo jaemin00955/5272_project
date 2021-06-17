@@ -38,7 +38,6 @@ def get_user_building(login_user_id):
     return counts
 
 # 로그인한 사용자 ID를 building, device 테이블과 join 시켜서 종류 및 개수 select
-# 플라스크 라우팅 할 때 building_name 파라미터를 불러올수가 없어서, login_user_id파라미터만 필요하도록 만들어주세요!
 def get_user_building_info(login_user_id):
     conn = db_conn.get_connection()
     sql_b = 'select id,building_name,building_type_name,building_address from building where building_user_id = %s order by building.id'
